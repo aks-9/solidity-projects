@@ -1,0 +1,15 @@
+Open a new terminal in the app's folder and run:
+npx hardhat node
+
+
+Then deploy the contract by running:
+npx hardhat run scripts/deploy.js --network localhost
+
+Copy the deployed address and update it in the App.js
+
+Open another new terminal in the app's folder and run:
+npm start
+
+From the first terminal, where node was created, copy the private key of one of the addresses and import it in metamask.
+
+Connect, sign the transactions and you will be able to make changes.
