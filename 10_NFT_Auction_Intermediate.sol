@@ -132,7 +132,7 @@ contract NFTMarket is ReentrancyGuard {
 
         //the index of MarketItem[] array of course is going to start as an empty array and we're going to populate it with the zeroth item, the first time the code under for loop is called.And then we  increment that to one and the next time    this is called the current index is one and so on and so forth. 
         
-        //Then all we want to do at this point is, we've populated the array at that point we're just going to return the items, so  this will return the market items that have not yet been sold
+        //Then all we want to do at this point is, we've populated the array at that point we're just going to return the items, so  this will return the market items that have not yet been sold.
       }
     }
 
