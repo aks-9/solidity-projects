@@ -37,21 +37,9 @@ contract nftMarketplace is ReentrancyGuard {
 
   event MarketItemCreated (uint indexed marketItemId,address indexed nftContract, uint indexed tokenId, address seller, address owner, uint price);
 
-  // modifier onlyManger(){
-  //  require(msg.sender== seller,"Only manager can call this function");
-  //       _;
-  //   }
-
-  // modifier onlyBuyer(){
-  //   require();
-  //   _;
-  // }
-
-  
-
-    //For listing an item on the marketplace.
-    //Using a modifier from the imported ReentrancyGuard contract.
-    function createMarketItem(address _nftContract, uint _tokenId, uint _price) public payable nonReentrant {
+  //For listing an item on the marketplace.
+  //Using a modifier from the imported ReentrancyGuard contract.
+  function createMarketItem(address _nftContract, uint _tokenId, uint _price) public payable nonReentrant {
     require(_price > 0, "Listing price must be greater than zero.");
     require(msg.value == listingFee, "Minimum listing price of 0.001 ETH not met.");
 
@@ -98,59 +86,53 @@ contract nftMarketplace is ReentrancyGuard {
   
   // To get all of the items currently for sale.
    function fetchMarketItem() public view returns(MarketItem[] memory) {
-     uint itemCount = _itemIds.current(); //Total number of items created so far.
-     uint unsoldItemCount = itemCount - _itemsSold.current(); //Total - sold.
+     uint totalItemCount = _itemIds.current(); //Total number of items created so far.
+     uint unsoldItemCount = totalItemCount - _itemsSold.current(); //Total - sold.
      uint currentIndex = 0; // for looping over total number of items in order to get the current index in order to populate an array.
 
-     MarketItem[] memory items = new MarketItem[](unsoldItemCount); //creating a variable called items, it is going to hold an array of market items. And we'll be setting it to a new array with the length of the unsold items length. So we know that we want to only return the items that are unsold.
+     MarketItem[] memory items = new MarketItem[](unsoldItemCount); //creating a variable called 'items' of type MarketItem. It will hold a dynamic array, at each index of which will be a 'marketItem'. And we'll be setting 'items' to a new array with the length of the unsold items length. So we know that we want to only return the items that are unsold.
 
-     for (uint i = 0; i < itemCount; i++)
-     {//looping over the entire total items
-      if (allMarketItems[i + 1].owner == address(0))
-      { //checking to see if the address is an empty address. If address is an empty address, that means this item is yet to be sold, and we do want to return it. If it is not an empty address, we don't want to return it.
+     for (uint i = 0; i < totalItemCount; i++){//looping over the entire total items
+      if (allMarketItems[i + 1].owner == address(0)) //checking to see if the address is an empty address. 
+      { //If address is an empty address, that means this item is yet to be sold, and we want to return it. If it is not an empty address, we don't want to return it.
 
-        //uint currentID =idToMarketItem[i+1].itemId; // If the address is an empty address, we created an item called currentID and we set that to the value of this idToMarketItem mapping.
-        //the index is starting at zero but our counter started at one so we're  going to say index plus one.
-        uint currentId = i + 1;
+        //uint currentID =allMarketItems[i+1].itemId; 
 
-        MarketItem storage currentItem = allMarketItems[currentId]; //and then we create an another variable called current item and we set the value of this items array the value of that item.
+        uint currentId = i + 1; //We're using this variable as we can't pass i+1 in allMarketItems mapping, as we can't increment an address type with 1 which is of type uint. If the address is an empty address, we created an item called currentID and we set that to the value of this allMarketItems mapping. The index is starting at zero but our counter started at one so we're  going to say index plus one.
+
+        MarketItem storage currentItem = allMarketItems[currentId]; //Now we create an another variable called 'currentItem' ,and then we set it to the value returned by the mapping 'allMarketItems' at the index 'currentId'. The value returned by 'allMarketItems' is of type 'MarketItem', which is a struct, so we  have to use 'storage' keyword.
 
         items[currentIndex] = currentItem;
-        currentIndex += 1; //then increment the value of our current index by one because we started that index at zero and we're going to be adding a new item maybe on the next loop so we want to increment that. 
-
-        //the index of MarketItem[] array of course is going to start as an empty array and we're going to populate it with the zeroth item, the first time the code under for loop is called.And then we  increment that to one and the next time    this is called the current index is one and so on and so forth. 
-        
-        //Then all we want to do at this point is, we've populated the array at that point we're just going to return the items, so  this will return the market items that have not yet been sold.
+        currentIndex += 1; //increment the value of our 'currentIndex' by one because we started it at zero and now we're going to be adding a new item on the next loop so we want to increment 'currentIndex'.         
       }
      }
-  return items;
-
+  return items; //this will return the market items that have not yet been sold.
   }
 
 
 
-    function fetchMyNFTs() public view returns (MarketItem[] memory) {
+  function fetchMyNFTs() public view returns (MarketItem[] memory) {
     uint totalItemCount = _itemIds.current();
     uint itemCount = 0;
     uint currentIndex = 0;
 
     for (uint i = 0; i < totalItemCount; i++) {
-      if (allMarketItems[i + 1].owner == msg.sender) {
+      if (allMarketItems[i + 1].owner == msg.sender) { //checking to see if the address of owner is same as caller of this function. 
         itemCount += 1;
       }
     }
 
-    MarketItem[] memory items = new MarketItem[](itemCount);
+    MarketItem[] memory myItems = new MarketItem[](itemCount);
     for (uint i = 0; i < totalItemCount; i++) {
       if (allMarketItems[i + 1].owner == msg.sender) {
         uint currentId = i + 1;
         MarketItem storage currentItem = allMarketItems[currentId];
-        items[currentIndex] = currentItem;
+        myItems[currentIndex] = currentItem;
         currentIndex += 1;
       }
     }
 
-    return items;
+    return myItems;
   }
 
     
