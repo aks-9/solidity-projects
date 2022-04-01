@@ -12,11 +12,13 @@ contract Vesting{
 
     mapping(address => Founder) public founders;
     address public admin;
+    uint transactionValue;
 
     event addFounderEvent (address _founderEvent, uint _timeToMaturityEvent, string messageEvent);
 
-    constructor(){
+    constructor() payable {
         admin = msg.sender;
+        transactionValue = msg.value;
 
     }
 
@@ -24,7 +26,7 @@ contract Vesting{
         require(_founder == admin, "Only admin can add a founder.");
         require(founders[_founder].amount == 0 ,"Founder already exists");
 
-        founders[_founder] = Founder(msg.value, block.timestamp + _timeToMaturity, false);
+        founders[_founder] = Founder(transactionValue, block.timestamp + _timeToMaturity, false);
 
         emit addFounderEvent(_founder, _timeToMaturity, "Founder added.");
 
