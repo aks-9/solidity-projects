@@ -30,7 +30,7 @@ contract Vesting{
 
     }
 
-    function withdraw() external returns(bool) {
+    function withdraw() external payable {
         Founder storage founder = founders[msg.sender];
 
         require(founder.maturity <= block.timestamp, "Vesting period hasn't ended");
@@ -40,8 +40,7 @@ contract Vesting{
         founder.paid = true;
         payable(msg.sender).transfer(founder.amount);
 
-        return true;
-        
+                
     }
 
 }
