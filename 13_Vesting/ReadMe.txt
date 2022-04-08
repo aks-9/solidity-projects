@@ -1,4 +1,5 @@
-Vesting contract.
+Vesting contract: A smart-contract allowing ERC20 tokens to be vested in a linear fashion.
+
 
 
 1. First deploy the Vesting contract using the first Remix account 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4 with the following inputs:
