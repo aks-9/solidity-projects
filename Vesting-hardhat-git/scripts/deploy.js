@@ -4,7 +4,7 @@ async function main() {
   
   // Token contract
   const Token = await hre.ethers.getContractFactory("Token");
-  const token = await Token.deploy("Hello, Hardhat!");
+  const token = await Token.deploy();
 
   await token.deployed();
 
@@ -13,7 +13,7 @@ async function main() {
 
   // Vesting contract
   const Vesting = await hre.ethers.getContractFactory("Vesting");
-  const vesting = await Vesting.deploy("Hello, Hardhat!");
+  const vesting = await Vesting.deploy();
 
   await vesting.deployed();
 
