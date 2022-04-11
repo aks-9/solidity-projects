@@ -13,7 +13,7 @@ async function main() {
 
   // Vesting contract
   const Vesting = await hre.ethers.getContractFactory("Vesting");
-  const vesting = await Vesting.deploy();
+  const vesting = await Vesting.deploy("Mentor's address ","Advisor address","Partner address","Startime");// need to pass Mentor's, Advisor's, and Partner's addresses in deploy function. Also, a Startime unix timestamp to the constructor.
 
   await vesting.deployed();
 
