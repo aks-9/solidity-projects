@@ -1,8 +1,8 @@
 # NFT Marketplace project.
 
-This project consists of 4 smart contracts, which enable us to create a NFT Marketplace where a user can mint, sell, and buy and NFT using custom ERC20 tokens used as currency on the marketplace. 
+This project consists of 4 smart contracts, which enable us to create a NFT Marketplace where a user can mint, sell, and buy an NFT using custom ERC20 tokens used as currency on the marketplace. 
 
-A user can further sell and buy fractional parts of an NFT, by minting ERC20 tokens for their NFT and distributing them to multiple owners as per required percentage. 
+A user can further sell and buy fractional parts of an NFT, by minting ERC20 tokens against their NFT and distributing them to multiple owners as per required percentage. 
 
 When the fractional owner sells the fractional ERC20 tokens of a particular NFT, a royalty percentage will be deducted from the transactional amount and sent to all of the holders of the fractional NFTs at that time.
 
